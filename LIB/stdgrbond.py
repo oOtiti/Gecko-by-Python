@@ -1,4 +1,4 @@
-import keyparameter toolbox
+import keyparameter,toolbox
 #=======================================================================
 # PURPOSE: Contruction of the group matrix and the carbon-carbon bond   
 # matrix of a molecule (chem) given as input. Characters (/, \) used to 
