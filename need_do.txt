@@ -26,7 +26,6 @@ criegeetool.f90
   ringtool.f90
 
 database.f90
-  references.f90
 
 dectool.f90
   radchktool.f90
@@ -39,10 +38,8 @@ dhftool.f90
   mapping.f90
   normchem.f90
   reactool.f90
-  references.f90
   ringtool.f90
   rxwrttool.f90
-  tempflag.f90
 
 dictstackdb.f90
 
@@ -53,11 +50,9 @@ dictstacktool.f90
   dictstackdb.f90
   namingtool.f90
   normchem.f90
-  references.f90
   rxwrttool.f90
   searching.f90
   switchisomer.f90
-  tempflag.f90
 
 fragm.f90
   mapping.f90
@@ -81,7 +76,6 @@ ho_aromtool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
 
 hoaddtool.f90
   atomtool.f90
@@ -100,7 +94,6 @@ hochem.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   rxwrttool.f90
   searching.f90
 
@@ -126,7 +119,6 @@ hvdiss2.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   ringtool.f90
   rxwrttool.f90
   stuff4hvdiss2.f90
@@ -142,7 +134,6 @@ khydtool.f90
 loadc1tool.f90
   atomtool.f90
   dictstackdb.f90
-  references.f90
   rxwrttool.f90
   searching.f90
   sortstring.f90
@@ -193,7 +184,6 @@ main.f90
   spsptool.f90
   stbcriegeechem.f90
   stdgrbond.f90
-  tempflag.f90
 
 maintool.f90
   atomtool.f90
@@ -204,7 +194,6 @@ maintool.f90
   simpoltool.f90
   sortstring.f90
   stdgrbond.f90
-  tempflag.f90
 
 mapping.f90
   searching.f90
@@ -240,7 +229,6 @@ no3addtool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   ringtool.f90
 
 no3chem.f90
@@ -252,7 +240,6 @@ no3chem.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   rxwrttool.f90
   searching.f90
 
@@ -279,7 +266,6 @@ o3chem.f90
   poztool.f90
   radchktool.f90
   reac_infotool.f90
-  references.f90
   ringtool.f90
   rxwrttool.f90
   searching.f90
@@ -302,7 +288,6 @@ panchem.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   ro2tool.f90
   rxwrttool.f90
 
@@ -322,7 +307,6 @@ radchktool.f90
   mapping.f90
   normchem.f90
   reactool.f90
-  references.f90
   ringtool.f90
   sortstring.f90
   stdgrbond.f90
@@ -333,7 +317,6 @@ rco3chem.f90
   normchem.f90
   radchktool.f90
   rco3tool.f90
-  references.f90
   rxwrttool.f90
 
 rco3tool.f90
@@ -342,14 +325,12 @@ rco3tool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   rxwrttool.f90
   tempo.f90
 
 rdchemprop.f90
   database.f90
   normchem.f90
-  references.f90
   searching.f90
   sortstring.f90
 
@@ -362,21 +343,18 @@ rdfixnam.f90
 rdkratetool.f90
   database.f90
   normchem.f90
-  references.f90
   searching.f90
   sortstring.f90
 
 rdmecatool.f90
   database.f90
   normchem.f90
-  references.f90
   searching.f90
   sortstring.f90
 
 rdnml.f90
 
 reac_infotool.f90
-  references.f90
   searching.f90
   sortstring.f90
 
@@ -385,8 +363,6 @@ reactool.f90
   stdratings.f90
   stdtool.f90
 
-references.f90
-  (no dependencies)
 
 ringtool.f90
   mapping.f90
@@ -398,7 +374,6 @@ ro2chem.f90
   dictstacktool.f90
   normchem.f90
   radchktool.f90
-  references.f90
   ro2tool.f90
   rxwrttool.f90
 
@@ -412,7 +387,6 @@ ro2tool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   ringtool.f90
   rxwrttool.f90
   tempo.f90
@@ -420,7 +394,6 @@ ro2tool.f90
 rochem.f90
   database.f90
   dictstacktool.f90
-  references.f90
   rodectool.f90
   roisotool.f90
   rorxtool.f90
@@ -450,7 +423,6 @@ rooohchem.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   rxwrttool.f90
   tempo.f90
 
@@ -462,13 +434,10 @@ rorxtool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   ringtool.f90
   rxwrttool.f90
 
 rxwrttool.f90
-  references.f90
-  tempflag.f90
 
 searching.f90
   (no dependencies)
@@ -487,7 +456,6 @@ spsptool.f90
   dictstackdb.f90
   dictstacktool.f90
   normchem.f90
-  references.f90
   rxwrttool.f90
   searching.f90
 
@@ -497,7 +465,6 @@ stbcriegeechem.f90
   mapping.f90
   normchem.f90
   reactool.f90
-  references.f90
   ringtool.f90
   rxwrttool.f90
 
@@ -519,7 +486,6 @@ stuff4hvdiss2.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  references.f90
   ringtool.f90
   stdgrbond.f90
 
@@ -532,13 +498,7 @@ temp.f90
   fragmenttool.f90
   ringtool.f90
 
-tempflag.f90
-  (no dependencies)
-
 tempo.f90
   dictstacktool.f90
   normchem.f90
   radchktool.f90
-
-tempoci.f90
-  (no dependencies)

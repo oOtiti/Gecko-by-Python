@@ -1,0 +1,14 @@
+
+mxsci = 15  
+mxcarb = 6
+primoOH = 0.0
+secoOH = 0.0
+primosci = 0.0
+ycarbo = 0.0
+nnsci = 0
+c1ciflag = 0
+yysci = [0.0 for _ in range(mxsci)]
+chemsci = [''] * mxsci
+focarb = [''] * mxcarb
+nc_carb = [0] * mxcarb
+ycarb = [0.0 for _ in range(mxcarb)]
