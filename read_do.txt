@@ -42,7 +42,7 @@ dectool.f90
   stdgrbond.f90
   √    toolbox.f90
 dhftool.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   dictstacktool.f90
   √    keyflag.f90
   √    keyparameter.f90
@@ -54,13 +54,13 @@ dhftool.f90
   rxwrttool.f90
   √    tempflag.f90
   √    toolbox.f90
-dictstackdb.f90
+√    dictstackdb.f90
   √    keyparameter.f90
 dictstacktool.f90
   atomtool.f90
   cdtool.f90
   database.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   √    keyflag.f90
   √    keyparameter.f90
   namingtool.f90
@@ -175,7 +175,7 @@ khydtool.f90
   √    toolbox.f90
 loadc1tool.f90
   atomtool.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   √    keyflag.f90
   √    keyparameter.f90
   √    references.f90
@@ -185,7 +185,7 @@ loadc1tool.f90
 loadchemin.f90
   atomtool.f90
   database.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   dictstacktool.f90
   √    keyflag.f90
   √    keyparameter.f90
@@ -203,19 +203,19 @@ loaddbtool.f90
   rdmecatool.f90
   simpoltool.f90
   spsptool.f90
-logtool.f90
+√    logtool.f90
   √    keyflag.f90
   √    keyparameter.f90
 main.f90
   dhftool.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   hochem.f90
   √    keyflag.f90
   √    keyparameter.f90
   loadc1tool.f90
   loadchemin.f90
   loaddbtool.f90
-  logtool.f90
+  √    logtool.f90
   maintool.f90
   masstranstool.f90
   no3chem.f90
@@ -238,7 +238,7 @@ main.f90
   √    toolbox.f90
 maintool.f90
   atomtool.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   √    keyflag.f90
   √    keyparameter.f90
   myrdaltool.f90
@@ -255,7 +255,7 @@ mapping.f90
   √    toolbox.f90
 masstranstool.f90
   atomtool.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   √    keyflag.f90
   √    keyparameter.f90
   rxwrttool.f90
@@ -267,7 +267,7 @@ myrdaltool.f90
 namingtool.f90
   atomtool.f90
   database.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   √    keyparameter.f90
   √    rjtool.f90
   searching.f90
@@ -343,7 +343,7 @@ o3chem.f90
 outtool.f90
   atomtool.f90
   bensontool.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   gromhetool.f90
   √    keyflag.f90
   √    keyparameter.f90
@@ -567,7 +567,7 @@ sortstring.f90
 spsptool.f90
   atomtool.f90
   database.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   dictstacktool.f90
   √    keyflag.f90
   √    keyparameter.f90
@@ -615,7 +615,7 @@ stuff4hvdiss2.f90
   √    rjtool.f90
   stdgrbond.f90
 switchisomer.f90
-  dictstackdb.f90
+  √    dictstackdb.f90
   √    keyparameter.f90
   namingtool.f90
   √    rjtool.f90

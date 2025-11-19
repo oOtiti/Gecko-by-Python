@@ -33,7 +33,6 @@ dectool.f90
   stdgrbond.f90
 
 dhftool.f90
-  dictstackdb.f90
   dictstacktool.f90
   mapping.f90
   normchem.f90
@@ -41,13 +40,10 @@ dhftool.f90
   ringtool.f90
   rxwrttool.f90
 
-dictstackdb.f90
-
 dictstacktool.f90
   atomtool.f90
   cdtool.f90
   database.f90
-  dictstackdb.f90
   namingtool.f90
   normchem.f90
   rxwrttool.f90
@@ -133,7 +129,6 @@ khydtool.f90
 
 loadc1tool.f90
   atomtool.f90
-  dictstackdb.f90
   rxwrttool.f90
   searching.f90
   sortstring.f90
@@ -141,7 +136,6 @@ loadc1tool.f90
 loadchemin.f90
   atomtool.f90
   database.f90
-  dictstackdb.f90
   dictstacktool.f90
   namingtool.f90
   normchem.f90
@@ -157,16 +151,12 @@ loaddbtool.f90
   simpoltool.f90
   spsptool.f90
 
-logtool.f90
-
 main.f90
   dhftool.f90
-  dictstackdb.f90
   hochem.f90
   loadc1tool.f90
   loadchemin.f90
   loaddbtool.f90
-  logtool.f90
   maintool.f90
   masstranstool.f90
   no3chem.f90
@@ -187,7 +177,6 @@ main.f90
 
 maintool.f90
   atomtool.f90
-  dictstackdb.f90
   myrdaltool.f90
   nannoolaltool.f90
   searching.f90
@@ -200,7 +189,6 @@ mapping.f90
 
 masstranstool.f90
   atomtool.f90
-  dictstackdb.f90
   rxwrttool.f90
 
 minidict.f90
@@ -211,7 +199,6 @@ myrdaltool.f90
 namingtool.f90
   atomtool.f90
   database.f90
-  dictstackdb.f90
   searching.f90
 
 nannoolaltool.f90
@@ -273,7 +260,6 @@ o3chem.f90
 outtool.f90
   atomtool.f90
   bensontool.f90
-  dictstackdb.f90
   gromhetool.f90
   myrdaltool.f90
   nannoolaltool.f90
@@ -453,7 +439,6 @@ sortstring.f90
 spsptool.f90
   atomtool.f90
   database.f90
-  dictstackdb.f90
   dictstacktool.f90
   normchem.f90
   rxwrttool.f90
@@ -490,7 +475,6 @@ stuff4hvdiss2.f90
   stdgrbond.f90
 
 switchisomer.f90
-  dictstackdb.f90
   namingtool.f90
   stdgrbond.f90
 
