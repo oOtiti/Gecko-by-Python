@@ -191,8 +191,6 @@ masstranstool.f90
   atomtool.f90
   rxwrttool.f90
 
-minidict.f90
-
 myrdaltool.f90
   ringtool.f90
 

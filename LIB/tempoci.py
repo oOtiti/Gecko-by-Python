@@ -1,4 +1,3 @@
-
 mxsci = 15  
 mxcarb = 6
 primoOH = 0.0
