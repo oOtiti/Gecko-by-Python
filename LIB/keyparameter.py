@@ -68,7 +68,7 @@ def generate_prime(x):
     temp=[]
     for i in range(2,x+1):
         is_prime=True
-        for j in range(2,sqrt(i)+1):
+        for j in range(2,(int)(sqrt(i)+1)):
             if i%j==0: 
                 is_prime=False
                 break
@@ -78,4 +78,4 @@ def generate_prime(x):
         
     
 # prime numbers (less than 1000)
-prim=generate_prime(1000);
+prim=generate_prime(1000)

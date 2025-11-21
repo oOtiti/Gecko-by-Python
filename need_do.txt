@@ -1,88 +1,51 @@
-atomtool.f90
-  stdgrbond.f90
-
-bensontool.f90
-  database.f90
-  stdgrbond.f90
-
-brchtool.f90
-
 cdtool.f90
-  mapping.f90
   normchem.f90
   reactool.f90
-  stdgrbond.f90
 
 criegeetool.f90
-  atomtool.f90
   cdtool.f90
   dictstacktool.f90
   fragmenttool.f90
-  mapping.f90
   normchem.f90
   outtool.f90
   radchktool.f90
   reactool.f90
-  ringtool.f90
-
-database.f90
 
 dectool.f90
   radchktool.f90
   reactool.f90
-  stdgrbond.f90
 
 dhftool.f90
   dictstacktool.f90
-  mapping.f90
   normchem.f90
   reactool.f90
-  ringtool.f90
-  rxwrttool.f90
 
 dictstacktool.f90
-  atomtool.f90
   cdtool.f90
-  database.f90
-  namingtool.f90
   normchem.f90
-  rxwrttool.f90
-  searching.f90
   switchisomer.f90
 
 fragm.f90
-  mapping.f90
   reactool.f90
 
 fragmenttool.f90
-  mapping.f90
   reactool.f90
 
 gromhetool.f90
-  atomtool.f90
-  database.f90
   khydtool.f90
-  mapping.f90
-  ringtool.f90
-  searching.f90
-  stdgrbond.f90
-
+  
 ho_aromtool.f90
-  mapping.f90
   normchem.f90
   radchktool.f90
   reactool.f90
 
 hoaddtool.f90
-  atomtool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  ringtool.f90
 
 hochem.f90
   cdtool.f90
-  database.f90
   dictstacktool.f90
   ho_aromtool.f90
   hoaddtool.f90
@@ -90,60 +53,34 @@ hochem.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  rxwrttool.f90
-  searching.f90
 
 hotcriegeechem.f90
   criegeetool.f90
   dictstacktool.f90
-  mapping.f90
   reactool.f90
-  ringtool.f90
-  stdgrbond.f90
 
 hotool.f90
   ho_aromtool.f90
-  ringtool.f90
 
 hvdiss2.f90
-  atomtool.f90
-  bensontool.f90
   cdtool.f90
-  database.f90
   dictstacktool.f90
   fragmenttool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  ringtool.f90
-  rxwrttool.f90
   stuff4hvdiss2.f90
 
 khydtool.f90
-  database.f90
-  mapping.f90
   normchem.f90
   reactool.f90
-  searching.f90
-  stdgrbond.f90
-
-loadc1tool.f90
-  atomtool.f90
-  rxwrttool.f90
-  searching.f90
-  sortstring.f90
 
 loadchemin.f90
-  atomtool.f90
-  database.f90
   dictstacktool.f90
-  namingtool.f90
   normchem.f90
-  searching.f90
   spsptool.f90
 
 loaddbtool.f90
-  bensontool.f90
   nannoolaltool.f90
   rdchemprop.f90
   rdkratetool.f90
@@ -154,96 +91,48 @@ loaddbtool.f90
 main.f90
   dhftool.f90
   hochem.f90
-  loadc1tool.f90
   loadchemin.f90
   loaddbtool.f90
   maintool.f90
-  masstranstool.f90
   no3chem.f90
   o3chem.f90
   outtool.f90
   panchem.f90
   rco3chem.f90
-  rdnml.f90
   reac_infotool.f90
   ro2chem.f90
   rochem.f90
   rooohchem.f90
-  searching.f90
-  sortstring.f90
   spsptool.f90
   stbcriegeechem.f90
-  stdgrbond.f90
 
 maintool.f90
-  atomtool.f90
-  myrdaltool.f90
   nannoolaltool.f90
-  searching.f90
   simpoltool.f90
-  sortstring.f90
-  stdgrbond.f90
-
-mapping.f90
-  searching.f90
-
-masstranstool.f90
-  atomtool.f90
-  rxwrttool.f90
-
-myrdaltool.f90
-  ringtool.f90
-
-namingtool.f90
-  atomtool.f90
-  database.f90
-  searching.f90
 
 nannoolaltool.f90
-  atomtool.f90
   cdtool.f90
-  database.f90
-  mapping.f90
-  ringtool.f90
-
-no3abstool.f90
-  (no dependencies)
 
 no3addtool.f90
-  mapping.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  ringtool.f90
 
 no3chem.f90
   cdtool.f90
-  database.f90
   dictstacktool.f90
-  no3abstool.f90
   no3addtool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  rxwrttool.f90
-  searching.f90
 
 normchem.f90
-  atomtool.f90
-  ringtool.f90
-  stdgrbond.f90
-  stdratings.f90
-  stdtool.f90
 
 o3addtool.f90
-  mapping.f90
-  ringtool.f90
 
 o3chem.f90
-  atomtool.f90
   cdtool.f90
   criegeetool.f90
-  database.f90
   dictstacktool.f90
   hotcriegeechem.f90
   normchem.f90
@@ -251,216 +140,120 @@ o3chem.f90
   poztool.f90
   radchktool.f90
   reac_infotool.f90
-  ringtool.f90
-  rxwrttool.f90
-  searching.f90
 
 outtool.f90
-  atomtool.f90
-  bensontool.f90
   gromhetool.f90
-  myrdaltool.f90
   nannoolaltool.f90
-  ringtool.f90
-  rxwrttool.f90
   simpoltool.f90
-  stdgrbond.f90
 
 panchem.f90
-  atomtool.f90
   dictstacktool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
   ro2tool.f90
-  rxwrttool.f90
 
 poztool.f90
   fragmenttool.f90
   normchem.f90
   reactool.f90
-  ringtool.f90
-  stdgrbond.f90
-
-primetool.f90
 
 radchktool.f90
-  atomtool.f90
   cdtool.f90
   fragmenttool.f90
-  mapping.f90
   normchem.f90
   reactool.f90
-  ringtool.f90
-  sortstring.f90
-  stdgrbond.f90
 
 rco3chem.f90
-  database.f90
   dictstacktool.f90
   normchem.f90
   radchktool.f90
   rco3tool.f90
-  rxwrttool.f90
 
 rco3tool.f90
-  atomtool.f90
   dictstacktool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  rxwrttool.f90
   tempo.f90
 
 rdchemprop.f90
-  database.f90
   normchem.f90
-  searching.f90
-  sortstring.f90
 
 rdfixnam.f90
-  database.f90
   normchem.f90
-  searching.f90
-  sortstring.f90
 
 rdkratetool.f90
-  database.f90
   normchem.f90
-  searching.f90
-  sortstring.f90
 
 rdmecatool.f90
-  database.f90
   normchem.f90
-  searching.f90
-  sortstring.f90
-
-rdnml.f90
 
 reac_infotool.f90
-  searching.f90
-  sortstring.f90
 
 reactool.f90
-  ringtool.f90
-  stdratings.f90
-  stdtool.f90
-
-
-ringtool.f90
-  mapping.f90
-  stdratings.f90
 
 ro2chem.f90
-  atomtool.f90
-  database.f90
   dictstacktool.f90
   normchem.f90
   radchktool.f90
   ro2tool.f90
-  rxwrttool.f90
 
 ro2tool.f90
-  atomtool.f90
   dectool.f90
   dictstacktool.f90
   fragmenttool.f90
-  mapping.f90
-  namingtool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  ringtool.f90
-  rxwrttool.f90
   tempo.f90
 
 rochem.f90
-  database.f90
   dictstacktool.f90
   rodectool.f90
   roisotool.f90
   rorxtool.f90
-  rxwrttool.f90
 
 rodectool.f90
-  bensontool.f90
   cdtool.f90
   dectool.f90
   fragmenttool.f90
-  mapping.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  ringtool.f90
-  stdgrbond.f90
 
 roisotool.f90
-  mapping.f90
   radchktool.f90
   reactool.f90
-  ringtool.f90
 
 rooohchem.f90
-  atomtool.f90
   dictstacktool.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  rxwrttool.f90
   tempo.f90
 
 rorxtool.f90
   dectool.f90
   dictstacktool.f90
   fragmenttool.f90
-  mapping.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  ringtool.f90
-  rxwrttool.f90
-
-rxwrttool.f90
-
-searching.f90
-  (no dependencies)
 
 simpoltool.f90
-  database.f90
-  mapping.f90
-  ringtool.f90
-
-sortstring.f90
-  (no dependencies)
 
 spsptool.f90
-  atomtool.f90
-  database.f90
   dictstacktool.f90
   normchem.f90
-  rxwrttool.f90
-  searching.f90
 
 stbcriegeechem.f90
   criegeetool.f90
   dictstacktool.f90
-  mapping.f90
   normchem.f90
   reactool.f90
-  ringtool.f90
-  rxwrttool.f90
-
-stdgrbond.f90
-
-stdratings.f90
-  primetool.f90
-
-stdtool.f90
-  brchtool.f90
 
 stuff4hvdiss2.f90
-  atomtool.f90
   cdtool.f90
   criegeetool.f90
   dictstacktool.f90
@@ -469,16 +262,11 @@ stuff4hvdiss2.f90
   normchem.f90
   radchktool.f90
   reactool.f90
-  ringtool.f90
-  stdgrbond.f90
 
 switchisomer.f90
-  namingtool.f90
-  stdgrbond.f90
 
 temp.f90
   fragmenttool.f90
-  ringtool.f90
 
 tempo.f90
   dictstacktool.f90
