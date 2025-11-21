@@ -33,6 +33,9 @@ def rxinit(r, s, p, arrh, idreac, nlabel, xlabel, folow, fotroe):
     nlabel = 0
     xlabel = 0.0
 
+    # return idreac, nlabel, xlabel so callers can receive updated values
+    return idreac, nlabel, xlabel
+
 
 def rxwrit(lout, r, s, p, arrh, idreac, nlab, xlabel, folow, fotroe, com=None, phase=None):
     from keyparameter import refu, mxnp, mxlco

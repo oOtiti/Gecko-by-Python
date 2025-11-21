@@ -3,7 +3,6 @@ from database import  nfn,namfn,chemfn
 from atomtool import cnum
 from searching import srh5
 from dictstackdb import nrec,namlst
-from toolbox import  nfn,namfn,chemfn
 from atomtool import getatoms
 from toolbox import stoperr
 from rjtool import rjsrm
@@ -126,7 +125,7 @@ def naming(chem, iloc, name, fgrp):
             break
 
 def codefg(chem, fgrp, lfg):
-    global mxring
+    from keyparameter import mxring
     
     tchem = chem
     lfg = 1

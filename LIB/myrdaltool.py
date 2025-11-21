@@ -1,6 +1,7 @@
 def myrdalprop(chem, bond, group, nring, rjg, weight, Tb, logPvap, deltaHvap):
     from ringtool import findring
     from toolbox import stoperr
+    import math
 
     temp = 298.0
     tau = 0.0
@@ -86,11 +87,13 @@ def myrdalprop(chem, bond, group, nring, rjg, weight, Tb, logPvap, deltaHvap):
     COOH = Jobgroup[14]
     HBN = (OH + COOH) ** 0.5 / weight
 
-    logPvap = (-(86.0 + 0.4 * tau + 1421 * HBN) * (Tb - temp) / (19.1 * temp) +
-               (-90.0 - 2.1 * tau) / 19.1 * ((Tb - temp) / temp - (Tb / temp).log()))
+    logPvap = (-(86.0 + 0.4 * tau + 1421 * HBN) * (Tb - temp) / (19.1 * temp)
+               + (-90.0 - 2.1 * tau) / 19.1 * ((Tb - temp) / temp - math.log(Tb / temp)))
 
-    deltaHvap = (Tb * (86.0 + 0.4 * tau + 1421 * HBN) +
-                 (-90.0 - 2.1 * tau) * (temp - Tb))
+    deltaHvap = (Tb * (86.0 + 0.4 * tau + 1421 * HBN)
+                 + (-90.0 - 2.1 * tau) * (temp - Tb))
+
+    return Tb, logPvap, deltaHvap
 
 
 def jobakgr(group, bond, nca, nring, rjg, Jobgroup):

@@ -45,7 +45,7 @@ def rdbenson():
         if ierr != 0:
             print('--error-- in rdbenson. Missing keyword END ?')
             tfu1.close()
-            raise SystemExit("in rdbenson, while reading inputs") from e
+            raise SystemExit("in rdbenson, while reading inputs")
 
         if line[:3] == 'END':
             break

@@ -516,7 +516,7 @@ def rxmeo2ro2():
             rmol1 = stoi_m[itype][1]
             rmol2 = stoi_m[itype][2]
 
-            rxinit(r, s, p, arrh, idreac, nlabel, xlabel, folow, fotroe)
+            idreac, nlabel, xlabel = rxinit(r, s, p, arrh, idreac, nlabel, xlabel, folow, fotroe)
 
             r[0] = 'CH3O2'
             r[1] = kwdclass[itype]
@@ -539,7 +539,7 @@ def rxmeo2ro2():
         rmol1 = stoi_m[itype][1]
         rmol2 = stoi_m[itype][2]
 
-        rxinit(r, s, p, arrh, idreac, nlabel, xlabel, folow, fotroe)
+        idreac, nlabel, xlabel = rxinit(r, s, p, arrh, idreac, nlabel, xlabel, folow, fotroe)
 
         r[0] = 'CH3O2'
         r[1] = 'PERO1'
