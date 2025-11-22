@@ -1,48 +1,33 @@
 cdtool.f90
-  normchem.f90
-  reactool.f90
 
 criegeetool.f90
   cdtool.f90
   dictstacktool.f90
   fragmenttool.f90
-  normchem.f90
   outtool.f90
   radchktool.f90
-  reactool.f90
 
 dectool.f90
   radchktool.f90
-  reactool.f90
 
 dhftool.f90
   dictstacktool.f90
-  normchem.f90
-  reactool.f90
 
 dictstacktool.f90
   cdtool.f90
-  normchem.f90
-  switchisomer.f90
 
 fragm.f90
-  reactool.f90
 
 fragmenttool.f90
-  reactool.f90
 
 gromhetool.f90
   khydtool.f90
   
 ho_aromtool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
 
 hoaddtool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
 
 hochem.f90
   cdtool.f90
@@ -50,14 +35,11 @@ hochem.f90
   ho_aromtool.f90
   hoaddtool.f90
   hotool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
 
 hotcriegeechem.f90
   criegeetool.f90
   dictstacktool.f90
-  reactool.f90
 
 hotool.f90
   ho_aromtool.f90
@@ -66,18 +48,13 @@ hvdiss2.f90
   cdtool.f90
   dictstacktool.f90
   fragmenttool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
   stuff4hvdiss2.f90
 
 khydtool.f90
-  normchem.f90
-  reactool.f90
 
 loadchemin.f90
   dictstacktool.f90
-  normchem.f90
   spsptool.f90
 
 loaddbtool.f90
@@ -85,7 +62,6 @@ loaddbtool.f90
   rdchemprop.f90
   rdkratetool.f90
   rdmecatool.f90
-  simpoltool.f90
   spsptool.f90
 
 main.f90
@@ -99,7 +75,6 @@ main.f90
   outtool.f90
   panchem.f90
   rco3chem.f90
-  reac_infotool.f90
   ro2chem.f90
   rochem.f90
   rooohchem.f90
@@ -108,94 +83,63 @@ main.f90
 
 maintool.f90
   nannoolaltool.f90
-  simpoltool.f90
 
 nannoolaltool.f90
   cdtool.f90
 
 no3addtool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
 
 no3chem.f90
   cdtool.f90
   dictstacktool.f90
   no3addtool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
-
-normchem.f90
-
-o3addtool.f90
 
 o3chem.f90
   cdtool.f90
   criegeetool.f90
   dictstacktool.f90
   hotcriegeechem.f90
-  normchem.f90
-  o3addtool.f90
   poztool.f90
   radchktool.f90
-  reac_infotool.f90
 
 outtool.f90
   gromhetool.f90
   nannoolaltool.f90
-  simpoltool.f90
 
 panchem.f90
   dictstacktool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
   ro2tool.f90
 
 poztool.f90
   fragmenttool.f90
-  normchem.f90
-  reactool.f90
 
 radchktool.f90
   cdtool.f90
   fragmenttool.f90
-  normchem.f90
-  reactool.f90
 
 rco3chem.f90
   dictstacktool.f90
-  normchem.f90
   radchktool.f90
   rco3tool.f90
 
 rco3tool.f90
   dictstacktool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
   tempo.f90
 
 rdchemprop.f90
-  normchem.f90
 
 rdfixnam.f90
-  normchem.f90
 
 rdkratetool.f90
-  normchem.f90
 
 rdmecatool.f90
-  normchem.f90
-
-reac_infotool.f90
-
-reactool.f90
 
 ro2chem.f90
   dictstacktool.f90
-  normchem.f90
   radchktool.f90
   ro2tool.f90
 
@@ -203,9 +147,7 @@ ro2tool.f90
   dectool.f90
   dictstacktool.f90
   fragmenttool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
   tempo.f90
 
 rochem.f90
@@ -218,40 +160,28 @@ rodectool.f90
   cdtool.f90
   dectool.f90
   fragmenttool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
 
 roisotool.f90
   radchktool.f90
-  reactool.f90
 
 rooohchem.f90
   dictstacktool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
   tempo.f90
 
 rorxtool.f90
   dectool.f90
   dictstacktool.f90
   fragmenttool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
-
-simpoltool.f90
 
 spsptool.f90
   dictstacktool.f90
-  normchem.f90
 
 stbcriegeechem.f90
   criegeetool.f90
   dictstacktool.f90
-  normchem.f90
-  reactool.f90
 
 stuff4hvdiss2.f90
   cdtool.f90
@@ -259,16 +189,11 @@ stuff4hvdiss2.f90
   dictstacktool.f90
   fragmenttool.f90
   hotool.f90
-  normchem.f90
   radchktool.f90
-  reactool.f90
-
-switchisomer.f90
 
 temp.f90
   fragmenttool.f90
 
 tempo.f90
   dictstacktool.f90
-  normchem.f90
   radchktool.f90
