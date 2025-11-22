@@ -1,9 +1,4 @@
-cdtool.f90
-
 criegeetool.f90
-  cdtool.f90
-  dictstacktool.f90
-  fragmenttool.f90
   outtool.f90
   radchktool.f90
 
@@ -11,17 +6,6 @@ dectool.f90
   radchktool.f90
 
 dhftool.f90
-  dictstacktool.f90
-
-dictstacktool.f90
-  cdtool.f90
-
-fragm.f90
-
-fragmenttool.f90
-
-gromhetool.f90
-  khydtool.f90
   
 ho_aromtool.f90
   radchktool.f90
@@ -30,8 +14,6 @@ hoaddtool.f90
   radchktool.f90
 
 hochem.f90
-  cdtool.f90
-  dictstacktool.f90
   ho_aromtool.f90
   hoaddtool.f90
   hotool.f90
@@ -39,29 +21,19 @@ hochem.f90
 
 hotcriegeechem.f90
   criegeetool.f90
-  dictstacktool.f90
 
 hotool.f90
   ho_aromtool.f90
 
 hvdiss2.f90
-  cdtool.f90
-  dictstacktool.f90
-  fragmenttool.f90
   radchktool.f90
   stuff4hvdiss2.f90
 
-khydtool.f90
-
 loadchemin.f90
-  dictstacktool.f90
   spsptool.f90
 
 loaddbtool.f90
   nannoolaltool.f90
-  rdchemprop.f90
-  rdkratetool.f90
-  rdmecatool.f90
   spsptool.f90
 
 main.f90
@@ -85,115 +57,79 @@ maintool.f90
   nannoolaltool.f90
 
 nannoolaltool.f90
-  cdtool.f90
 
 no3addtool.f90
   radchktool.f90
 
 no3chem.f90
-  cdtool.f90
-  dictstacktool.f90
   no3addtool.f90
   radchktool.f90
 
 o3chem.f90
-  cdtool.f90
   criegeetool.f90
-  dictstacktool.f90
   hotcriegeechem.f90
   poztool.f90
   radchktool.f90
 
 outtool.f90
-  gromhetool.f90
   nannoolaltool.f90
 
 panchem.f90
-  dictstacktool.f90
   radchktool.f90
   ro2tool.f90
 
 poztool.f90
-  fragmenttool.f90
 
 radchktool.f90
-  cdtool.f90
-  fragmenttool.f90
 
 rco3chem.f90
-  dictstacktool.f90
   radchktool.f90
   rco3tool.f90
 
 rco3tool.f90
-  dictstacktool.f90
   radchktool.f90
   tempo.f90
 
-rdchemprop.f90
-
-rdfixnam.f90
-
-rdkratetool.f90
-
-rdmecatool.f90
-
 ro2chem.f90
-  dictstacktool.f90
   radchktool.f90
   ro2tool.f90
 
 ro2tool.f90
   dectool.f90
-  dictstacktool.f90
-  fragmenttool.f90
   radchktool.f90
   tempo.f90
 
 rochem.f90
-  dictstacktool.f90
   rodectool.f90
   roisotool.f90
   rorxtool.f90
 
 rodectool.f90
-  cdtool.f90
   dectool.f90
-  fragmenttool.f90
   radchktool.f90
 
 roisotool.f90
   radchktool.f90
 
 rooohchem.f90
-  dictstacktool.f90
   radchktool.f90
   tempo.f90
 
 rorxtool.f90
   dectool.f90
-  dictstacktool.f90
-  fragmenttool.f90
   radchktool.f90
 
 spsptool.f90
-  dictstacktool.f90
 
 stbcriegeechem.f90
   criegeetool.f90
-  dictstacktool.f90
 
 stuff4hvdiss2.f90
-  cdtool.f90
   criegeetool.f90
-  dictstacktool.f90
-  fragmenttool.f90
   hotool.f90
   radchktool.f90
 
 temp.f90
-  fragmenttool.f90
 
 tempo.f90
-  dictstacktool.f90
   radchktool.f90

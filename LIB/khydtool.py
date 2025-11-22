@@ -32,18 +32,26 @@ from toolbox import stoperr
 # - khydstar: hydration constant taking all possible hydrate into
 #     account (apparent constant K_star). NOT A LOG SCALE !
 # ======================================================================
-def get_hydrate(chem, nhyd, chemhyd, yhyd):
-    # 声明并初始化变量（对应Fortran声明，保持初值一致）
-    nwa = 0
-    khydstar = 0.0
-    # 初始化数组（保持原维度，左闭右闭范围）
-    for i in range(1, len(nhyd) + 1):
-        nhyd[i - 1] = 0
-    for i in range(1, len(chemhyd) + 1):
-        for j in range(1, len(chemhyd[0]) + 1):
-            chemhyd[i - 1][j - 1] = ' '
-            yhyd[i - 1][j - 1] = 0.0
-    
+def get_hydrate(chem, nwa, nhyd, chemhyd, yhyd, khydstar):
+    from database import nkhydb, khydb_chem, khydb_dat
+    from searching import srh5
+    # 声明并初始化局部变量（结合Fortran声明与初始化）
+    i = 0
+    j = 0
+    t1chemhyd = [""] * len(yhyd[0])  # 维度匹配yhyd第2维
+    t1yhyd = [0.0 for _ in range(len(yhyd[0]))]
+    t1nhyd = 0
+
+    chemdat = [""] * len(nhyd)  # 维度匹配nhyd
+    tempkc = ""
+    yield_ = 0.0  # 避免与Python关键字冲突
+    numy = 0.0
+    sumy = 0.0
+    ydat = [0.0 for _ in range(len(nhyd))]
+    ndat = 0
+    jp = 0
+    hlev = 0
+
     # table of functions - Index of functionalities
     # --------------------------
     #  1= -OH    ;  2= -NO2     ;  3= -ONO2   ; 4= -OOH    ;  5= -F     
@@ -51,69 +59,77 @@ def get_hydrate(chem, nhyd, chemhyd, yhyd):
     # 11= -COOH  ; 12= -CO(OOH) ; 13= -PAN    ; 14= -O-    ; 15= R-COO-R
     # 16 = HCO-O-R; 17= -CO(F) ; 18= -CO(Cl) ;  19= -CO(Br) ; 20= -CO(I)
 
+    # 初始化输出变量（严格匹配Fortran逻辑）
+    nwa = 0
+    khydstar = 0.0
+    for idx in range(len(nhyd)):
+        nhyd[idx] = 0
+    for idx1 in range(len(chemhyd)):
+        for idx2 in range(len(chemhyd[idx1])):
+            chemhyd[idx1][idx2] = ' '
+    for idx1 in range(len(yhyd)):
+        for idx2 in range(len(yhyd[idx1])):
+            yhyd[idx1][idx2] = 0.0
+      
     # -----------
     # monohydrate
     # -----------
     t1nhyd = 0
-    t1chemhyd = [' ' for _ in range(len(yhyd[0]))]
-    t1yhyd = [0.0 for _ in range(len(yhyd[0]))]
+    for idx in range(len(t1chemhyd)):
+        t1chemhyd[idx] = ' '
+    for idx in range(len(t1yhyd)):
+        t1yhyd[idx] = 0.0
 
-    yield_val = 0.0  # parent compound，避免使用关键字yield
-    ndat = 0
-    chemdat = [' ' for _ in range(len(nhyd))]
-    ydat = [0.0 for _ in range(len(nhyd))]
-    ndat, chemdat, ydat = khydration(chem, yield_val, ndat, chemdat, ydat)
+    yield_ = 0.0  # parent compound
+    khydration(chem, yield_, ndat, chemdat, ydat)
     if ndat == 0:
-        return nwa, khydstar, nhyd, chemhyd, yhyd  # no hydrate can be made from chem
+        return  # 无水合物时直接返回（通过引用修改输出参数）
     t1nhyd = ndat
-    # 循环范围：1到ndat（左闭右闭）
-    for i in range(1, ndat + 1):
-        t1chemhyd[i - 1] = chemdat[i - 1]
-        t1yhyd[i - 1] = ydat[i - 1]
-    
+    for idx in range(1, ndat + 1):
+        t1chemhyd[idx - 1] = chemdat[idx - 1]
+        t1yhyd[idx - 1] = ydat[idx - 1]
+      
     # collapse identical formula
     for i in range(1, t1nhyd):
-        numy = 1
+        numy = 1.0
         sumy = t1yhyd[i - 1]
         for j in range(i + 1, t1nhyd + 1):
             if t1chemhyd[i - 1] == t1chemhyd[j - 1]:
-                numy += 1
+                numy += 1.0
                 sumy += t1yhyd[j - 1]
                 t1chemhyd[j - 1] = ' '
                 t1yhyd[j - 1] = 0.0
-        if numy > 1:
+        if numy > 1.0:
             t1yhyd[i - 1] = sumy / float(numy)
-    
+      
     # write the table for monohydrate
     for i in range(1, t1nhyd + 1):
-        if t1chemhyd[i - 1][0] != ' ':
+        if t1chemhyd[i - 1][:1] != ' ':
             nhyd[0] += 1
-            chemhyd[nhyd[0] - 1][0] = t1chemhyd[i - 1]
-            yhyd[nhyd[0] - 1][0] = t1yhyd[i - 1]
-    
+            chemhyd[0][nhyd[0] - 1] = t1chemhyd[i - 1]
+            yhyd[0][nhyd[0] - 1] = t1yhyd[i - 1]
+
     # -----------
     # multi-hydrate
     # -----------
-    hlev = 2
     multiloop = True
+    hlev = 2
     while multiloop and hlev <= len(nhyd):
-        if nhyd[hlev - 2] == 0:  # all hydrate were found
+        if nhyd[hlev - 2] == 0:  # all hydrate were found (hlev-1对应索引hlev-2)
             nwa = hlev - 1
             multiloop = False
             break
 
         t1nhyd = 0
-        t1chemhyd = [' ' for _ in range(len(yhyd[0]))]
-        t1yhyd = [0.0 for _ in range(len(yhyd[0]))]
-        # 循环范围：1到nhyd(hlev-1)（左闭右闭）
+        for idx in range(len(t1chemhyd)):
+            t1chemhyd[idx] = ' '
+        for idx in range(len(t1yhyd)):
+            t1yhyd[idx] = 0.0
+        
         for jp in range(1, nhyd[hlev - 2] + 1):
-            yield_val = yhyd[jp - 1][hlev - 2]  # parent compound
-            tempkc = chemhyd[jp - 1][hlev - 2]
-            ndat = 0
-            chemdat = [' ' for _ in range(len(nhyd))]
-            ydat = [0.0 for _ in range(len(nhyd))]
-            ndat, chemdat, ydat = khydration(tempkc, yield_val, ndat, chemdat, ydat)
-            # 循环范围：1到ndat（左闭右闭）
+            yield_ = yhyd[hlev - 2][jp - 1]  # parent compound (hlev-1对应索引hlev-2)
+            tempkc = chemhyd[hlev - 2][jp - 1]
+            khydration(tempkc, yield_, ndat, chemdat, ydat)
             for i in range(1, ndat + 1):
                 t1chemhyd[t1nhyd + i - 1] = chemdat[i - 1]
                 t1yhyd[t1nhyd + i - 1] = ydat[i - 1]
@@ -121,43 +137,41 @@ def get_hydrate(chem, nhyd, chemhyd, yhyd):
 
         # collapse identical formula
         for i in range(1, t1nhyd):
-            numy = 1
+            numy = 1.0
             sumy = t1yhyd[i - 1]
             for j in range(i + 1, t1nhyd + 1):
                 if t1chemhyd[i - 1] == t1chemhyd[j - 1]:
-                    numy += 1
+                    numy += 1.0
                     sumy += t1yhyd[j - 1]
                     t1chemhyd[j - 1] = ' '
                     t1yhyd[j - 1] = 0.0
-            if numy > 1:
+            if numy > 1.0:
                 t1yhyd[i - 1] = sumy / float(numy)
-        
+      
         # write the table for monohydrate
         for i in range(1, t1nhyd + 1):
-            if t1chemhyd[i - 1][0] != ' ':
+            if t1chemhyd[i - 1][:1] != ' ':
                 nhyd[hlev - 1] += 1
-                chemhyd[nhyd[hlev - 1] - 1][hlev - 1] = t1chemhyd[i - 1]
-                yhyd[nhyd[hlev - 1] - 1][hlev - 1] = t1yhyd[i - 1]
+                chemhyd[hlev - 1][nhyd[hlev - 1] - 1] = t1chemhyd[i - 1]
+                yhyd[hlev - 1][nhyd[hlev - 1] - 1] = t1yhyd[i - 1]
 
         hlev += 1
 
     # Adjust nwa if exit did not occur in the formula loop
-    if hlev >= len(nhyd) + 1:
+    if hlev >= len(nhyd):
         nwa = len(nhyd)
 
     # compute Kstar
     for i in range(1, nwa + 1):
         for j in range(1, nhyd[i - 1] + 1):
-            khydstar += 10 ** (yhyd[j - 1][i - 1])
+            khydstar += 10 ** (yhyd[i - 1][j - 1])
 
     #-------------------------------------------------------------
-    #Check if hydration constant is already known in the database
+    # Check if hydration constant is already known in the database
     #-------------------------------------------------------------
     i = srh5(chem, khydb_chem, nkhydb)
     if i > 0:
         khydstar = 10 ** khydb_dat[i - 1][0]
-
-    return nwa, khydstar, nhyd, chemhyd, yhyd
 
 # ======================================================================
 # PURPOSE: return the list of hydrate (1 water molecule added) that

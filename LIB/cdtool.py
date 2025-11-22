@@ -1,12 +1,3 @@
-# 前置库已由用户提供，此处仅按需求导入对应模块内容
-from keyparameter import mxcp, mxnode, mxlgr, mxring
-from mapping import alkenetrack
-from toolbox import stoperr
-from rjtool import rjgrm
-from stdgrbond import grbond
-from reactool import swap
-from normchem import stdchm
-from reactool import rebond
 #=======================================================================
 # PURPOSE : check whether the C=C bonds are conjugated or not, including
 # C=O bond (i.e. structure of type -C=C-C=O). The subroutine returns the
@@ -24,19 +15,37 @@ from reactool import rebond
 # CASE 6: -C=C=O e.g. ketene (only case for this group)         
 # CASE 7: -C=C-O- => vinyl ether chemistry      
 #=======================================================================
-def cdcase2(chem, bond, group, rxnflg):
-    # 声明并初始化输出变量（完全对应原Fortran维度，1-based逻辑保留）
-    mxcd = len(bond[0])  # 对应SIZE(cdtrack,2)，保持原维度
-    ncdtrack = 0
-    # cdtrack保持原Fortran范围（左闭右闭），数组大小不变
-    cdtrack = [[0 for _ in range(mxcd)] for _ in range(len(bond))]
-    xcdconjug = [0 for _ in range(len(bond))]
-    xcdsub = [0 for _ in range(len(group))]
-    xcdeth = [[0 for _ in range(2)] for _ in range(len(group))]
-    xcdcarbo = [[0 for _ in range(2)] for _ in range(len(group))]
-    xcdcase = [0 for _ in range(len(bond))]
+from keyparameter import mxcp
+from mapping import alkenetrack
+from toolbox import stoperr
+
+def cdcase2(chem, bond, group, rxnflg, ncdtrack, cdtrack, xcdconjug, xcdsub, xcdeth, xcdcarbo, xcdcase):
+    # 初始化变量
+    ncdtrack[0] = 0  # 用列表包裹实现输出传递
+    # 初始化二维数组cdtrack为0
+    for i in range(len(cdtrack)):
+        for j in range(len(cdtrack[i])):
+            cdtrack[i][j] = 0
+    # 初始化一维数组xcdconjug为0
+    for i in range(len(xcdconjug)):
+        xcdconjug[i] = 0
+    # 初始化一维数组xcdsub为0
+    for i in range(len(xcdsub)):
+        xcdsub[i] = 0
+    # 初始化二维数组xcdeth为0
+    for i in range(len(xcdeth)):
+        for j in range(len(xcdeth[i])):
+            xcdeth[i][j] = 0
+    # 初始化二维数组xcdcarbo为0
+    for i in range(len(xcdcarbo)):
+        for j in range(len(xcdcarbo[i])):
+            xcdcarbo[i][j] = 0
+    # 初始化一维数组xcdcase为0
+    for i in range(len(xcdcase)):
+        xcdcase[i] = 0
     
-    cdtracklen = [0 for _ in range(len(bond))]
+    mxcd = len(cdtrack[0])  # SIZE(cdtrack,2)
+    # 初始化二维数组cdbond为0
     cdbond = [[0 for _ in range(len(group))] for _ in range(len(group))]
     
     # get the number of groups
@@ -45,56 +54,56 @@ def cdcase2(chem, bond, group, rxnflg):
     # ------------------------------
     # Create and check the Cd tracks
     # ------------------------------
+    # 声明cdtracklen数组，长度为SIZE(cdtrack,1)
+    cdtracklen = [0 for _ in range(len(cdtrack))]
     alkenetrack(chem, bond, group, ngr, ncdtrack, cdtracklen, cdtrack)
-    # 循环范围完全保留原Fortran左闭右闭：i从1到ncdtrack（含边界）
-    for i in range(1, ncdtrack + 1):
-        if cdtracklen[i - 1] == 4:  # 列表存储为0-based，索引转换不改变循环范围
-            xcdconjug[i - 1] = 1
+    for i in range(1, ncdtrack[0] + 1):
+        if cdtracklen[i-1] == 4:
+            xcdconjug[i-1] = 1
     
     # check for >C=CR-OH (enol: should have already tautomerised to ketone 
     # in subroutine alkcheck) and >C=CR-ONO2 (not available yet)
     if rxnflg != 0:
-        # 循环范围：i从1到ncdtrack（左闭右闭），j从1到mxcd（左闭右闭）
-        for i in range(1, ncdtrack + 1):
+        for i in range(1, ncdtrack[0] + 1):
             for j in range(1, mxcd + 1):
-                if cdtrack[i - 1][j - 1] != 0:
-                    idx = cdtrack[i - 1][j - 1]  # 保留原Fortran 1-based索引
-                    if '(ONO2)' in group[idx - 1]:  # 列表访问转0-based
+                if cdtrack[i-1][j-1] != 0:
+                    grp_idx = cdtrack[i-1][j-1] - 1  # 转换为0-based索引
+                    if '(ONO2)' in group[grp_idx]:
                         mesg = ">C=C(ONO2)- not allowed"
                         stoperr('cdcase2 ', mesg, chem)
-                    if '(OH)' in group[idx - 1]:
+                    if '(OH)' in group[grp_idx]:
                         mesg = ">C=C(OH)- not allowed"
                         stoperr('cdcase2 ', mesg, chem)
     
     # ------------------------------
     # Fill the various matrix
     # ------------------------------
+    
     # count # of nodes bonded to each Cd, except the C=C node (for which bond(i,j)=2)
     # and store -O- and CO nodes bonded to Cds
-    # 循环范围：i从1到ncdtrack（左闭右闭），j从1到mxcd（左闭右闭）
-    for i in range(1, ncdtrack + 1):
+    for i in range(1, ncdtrack[0] + 1):
         for j in range(1, mxcd + 1):
-            if cdtrack[i - 1][j - 1] != 0:
-                icd = cdtrack[i - 1][j - 1]  # current Cd node（保留1-based）
-                # 循环范围：k从1到ngr（左闭右闭）
-                for k in range(1, ngr + 1):
-                    if bond[icd - 1][k - 1] == 1:  # 列表访问转0-based
-                        xcdsub[icd - 1] += 1
-                        if group[k - 1] == 'CHO' or group[k - 1][:2] == 'CO':
-                            if xcdcarbo[icd - 1][0] == 0:
-                                xcdcarbo[icd - 1][0] = k  # 保留1-based存储
-                            elif xcdcarbo[icd - 1][1] == 0:
-                                xcdcarbo[icd - 1][1] = k
+            if cdtrack[i-1][j-1] != 0:
+                icd = cdtrack[i-1][j-1]  # current Cd node is icd (1-based)
+                for k in range(1, ngr + 1):  # check Cd neighbours (1-based)
+                    if bond[icd-1][k-1] == 1:  # bond是0-based数组
+                        xcdsub[icd-1] += 1  # count sub on Cd grp. (xcdsub是0-based)
+                        grp_k = group[k-1]  # group是0-based
+                        if grp_k == 'CHO' or grp_k[:2] == 'CO':
+                            if xcdcarbo[icd-1][0] == 0:
+                                xcdcarbo[icd-1][0] = k  # store CO node (1-based)
+                            elif xcdcarbo[icd-1][1] == 0:
+                                xcdcarbo[icd-1][1] = k  # store CO node (1-based)
                             else:
                                 mesg = "more than 2 carbonyls bonded to a Cd"
                                 stoperr('cdcase2 ', mesg, chem)
                     
-                    if bond[icd - 1][k - 1] == 3:
-                        xcdsub[icd - 1] += 1
-                        if xcdeth[icd - 1][0] == 0:
-                            xcdeth[icd - 1][0] = k  # 保留1-based存储
-                        elif xcdeth[icd - 1][1] == 0:
-                            xcdeth[icd - 1][1] = k
+                    if bond[icd-1][k-1] == 3:
+                        xcdsub[icd-1] += 1  # count sub on Cd grp. (xcdsub是0-based)
+                        if xcdeth[icd-1][0] == 0:
+                            xcdeth[icd-1][0] = k  # store -O- node (1-based)
+                        elif xcdeth[icd-1][1] == 0:
+                            xcdeth[icd-1][1] = k  # store -O- node (1-based)
                         else:
                             mesg = "more than 2 ethers bonded to a Cd"
                             stoperr('cdcase2 ', mesg, chem)
@@ -102,159 +111,162 @@ def cdcase2(chem, bond, group, rxnflg):
     # -------------------------------
     # set "cd case" for each Cd track 
     # -------------------------------
-    # 循环范围：i从1到ncdtrack（左闭右闭）
-    for i in range(1, ncdtrack + 1):
+    trloop = True
+    for i in range(1, ncdtrack[0] + 1):
         # check ketene >C=C=O (case 6)
-        ketene_flag = False
-        # 循环范围：j从1到mxcd（左闭右闭）
+        case6_flag = False
         for j in range(1, mxcd + 1):
-            if cdtrack[i - 1][j - 1] == 0:
+            icd = cdtrack[i-1][j-1]
+            if icd == 0:
                 break
-            icd = cdtrack[i - 1][j - 1]
-            if group[icd - 1] == 'CdO ':
-                xcdcase[i - 1] = 6
-                ketene_flag = True
+            grp_idx = icd - 1  # 转换为0-based
+            if group[grp_idx] == 'CdO ':
+                xcdcase[i-1] = 6
+                case6_flag = True
                 break
-        if ketene_flag:
+        if case6_flag:
             continue
         
         # check vinylic structure C=C-OR (case 7)
-        vinyl_flag = False
-        # 循环范围：j从1到mxcd，步长2（左闭右闭，对应原Fortran j=1,mxcd,2）
+        case7_flag = False
         for j in range(1, mxcd + 1, 2):
-            icd1st = cdtrack[i - 1][j - 1]
+            icd1st = cdtrack[i-1][j-1]
             if icd1st == 0:
                 break
-            # j+1不超过mxcd（保持原范围约束）
-            if j + 1 > mxcd:
-                icd2nd = 0
+            # j+1不超过mxcd（因为mxcd是偶数？按原逻辑）
+            if j + 1 <= mxcd:
+                icd2nd = cdtrack[i-1][j]  # j是1-based，j-1是当前索引，j是下一个
             else:
-                icd2nd = cdtrack[i - 1][j]
+                icd2nd = 0
             
-            if xcdeth[icd1st - 1][0] != 0:
-                xcdcase[i - 1] = 7
-                vinyl_flag = True
-            if icd2nd != 0 and xcdeth[icd2nd - 1][0] != 0:
-                xcdcase[i - 1] = 7
-                vinyl_flag = True
+            if xcdeth[icd1st-1][0] != 0:
+                xcdcase[i-1] = 7
+                case7_flag = True
+            if icd2nd != 0 and xcdeth[icd2nd-1][0] != 0:
+                xcdcase[i-1] = 7
+                case7_flag = True
             
-            if (xcdeth[icd1st - 1][0] != 0) and (icd2nd != 0 and xcdeth[icd2nd - 1][0] != 0):
+            if (icd1st != 0 and xcdeth[icd1st-1][0] != 0) and (icd2nd != 0 and xcdeth[icd2nd-1][0] != 0):
                 mesg = "ether found both sides of a Cd=Cd"
                 stoperr('cdcase2 ', mesg, chem)
             
-            if vinyl_flag:
+            if case7_flag:
                 break
-        if vinyl_flag:
+        if case7_flag:
             continue
         
         # check conjugated C=C-C=C tracks (case 1, 3 or 5)
-        if xcdconjug[i - 1] != 0:
+        if xcdconjug[i-1] != 0:
             nco = 0
-            # 循环范围：j从1到4，步长3（左闭右闭，对应原Fortran j=1,4,3）
-            for j in range(1, 5, 3):
+            # check terminal Cd only for -CO- (j=1和j=4，1-based)
+            for j in [1, 4]:
                 if j > mxcd:
                     break
-                icd = cdtrack[i - 1][j - 1]
+                icd = cdtrack[i-1][j-1]
                 if icd == 0:
-                    raise Exception('--error-- in cdcase, no Cd unexpected')
-                if xcdcarbo[icd - 1][0] != 0:
+                    raise RuntimeError('--error-- in cdcase, no Cd unexpected')
+                if xcdcarbo[icd-1][0] != 0:
                     nco += 1
             if nco > 1:
-                xcdcase[i - 1] = 3
-                continue
+                xcdcase[i-1] = 3
             elif nco == 1:
-                xcdcase[i - 1] = 5
-                continue
+                xcdcase[i-1] = 5
             else:
-                xcdcase[i - 1] = 1
-                continue
+                xcdcase[i-1] = 1
+            continue
         
         # check simple C=C tracks (case 1 or 2)
         else:
             nco = 0
-            # 循环范围：j从1到2（左闭右闭）
-            for j in range(1, 3):
+            for j in range(1, 3):  # j=1,2 (1-based)
                 if j > mxcd:
                     break
-                icd = cdtrack[i - 1][j - 1]
+                icd = cdtrack[i-1][j-1]
                 if icd == 0:
-                    raise Exception('--error-- in cdcase, no Cd unexpected')
-                if xcdcarbo[icd - 1][0] != 0:
+                    raise RuntimeError('--error-- in cdcase, no Cd unexpected')
+                if xcdcarbo[icd-1][0] != 0:
                     nco += 1
             if nco != 0:
-                xcdcase[i - 1] = 2
-                continue
+                xcdcase[i-1] = 2
             else:
-                xcdcase[i - 1] = 1
-                continue
-    
-    return ncdtrack, cdtrack, xcdconjug, xcdsub, xcdeth, xcdcarbo, xcdcase
+                xcdcase[i-1] = 1
+            continue
 
 #=======================================================================
 # PURPOSE : switch enol structure to the corresponding keto structure.
 # NOTE: the routine is similar to alkcheck below, but limited to enol
 # only.
 #=======================================================================
-def switchenol(pchem):
-    # 声明并初始化变量（保留原范围逻辑）
-    loswitch = False
-    # bond维度：mxnode×mxnode（左闭右闭，对应原Fortran范围）
+from keyparameter import mxnode, mxlgr, mxring
+from rjtool import rjgrm
+from stdgrbond import grbond
+from reactool import swap, rebond
+from normchem import stdchm
+
+def switchenol(pchem, loswitch):
+    # 初始化输出变量
+    loswitch[0] = False  # 用列表包裹实现输出传递
+    
+    if '.' in pchem:
+        return
+    
+    # 初始化变量
     bond = [[0 for _ in range(mxnode)] for _ in range(mxnode)]
     dbflg = 0
     nring = 0
     group = [''] * mxnode
-    tgroup = [''] * mxnode
     pold = ''
     pnew = ''
-    tempkc = ' ' * len(pchem)
-    # rjg维度：mxring×2（左闭右闭）
-    rjg = [[0 for _ in range(2)] for _ in range(mxring)]
-    
-    if '.' in pchem:
-        return pchem, loswitch
+    tgroup = [''] * mxnode
+    tempkc = [''] * len(pchem)
+    tempkc = ''.join(tempkc)  # 初始化空字符串
+    rjg = [[0 for _ in range(2)] for _ in range(mxring)]  # ring-join group pairs
     
     grbond(pchem, group, bond, dbflg, nring)
     rjgrm(nring, group, rjg)
     
-    # 循环范围：i从1到mxnode（左闭右闭）
-    for i in range(1, mxnode + 1):
-        if 'Cd' in group[i - 1]:
-            if '(OH)' in group[i - 1]:
+    # grloop循环
+    for i in range(1, mxnode + 1):  # 1-based到mxnode
+        grp_idx = i - 1  # 转换为0-based
+        if 'Cd' in group[grp_idx]:
+            if '(OH)' in group[grp_idx]:
                 pold = '(OH)'
                 pnew = 'O'
-                swap(group[i - 1], pold, tgroup[i - 1], pnew)
-                group[i - 1] = tgroup[i - 1]
+                swap(group[grp_idx], pold, tgroup[grp_idx], pnew)
+                group[grp_idx] = tgroup[grp_idx]
                 
                 pold = 'Cd'
                 pnew = 'C'
-                swap(group[i - 1], pold, tgroup[i - 1], pnew)
-                group[i - 1] = tgroup[i - 1]
+                swap(group[grp_idx], pold, tgroup[grp_idx], pnew)
+                group[grp_idx] = tgroup[grp_idx]
                 
-                # 循环范围：j从1到mxnode（左闭右闭）
-                for j in range(1, mxnode + 1):
-                    if bond[i - 1][j - 1] == 2:
-                        bond[i - 1][j - 1] = 1
-                        bond[j - 1][i - 1] = 1
+                for j in range(1, mxnode + 1):  # 1-based到mxnode
+                    if bond[i-1][j-1] == 2:  # bond是0-based
+                        bond[i-1][j-1] = 1
+                        bond[j-1][i-1] = 1
                         
-                        if group[j - 1][:4] == 'CdH2':
+                        grp_j = group[j-1]
+                        if grp_j[:4] == 'CdH2':
                             pold = 'CdH2'
                             pnew = 'CH3'
-                        elif group[j - 1][:3] == 'CdH':
+                        elif grp_j[:3] == 'CdH':
                             pold = 'CdH'
                             pnew = 'CH2'
-                        elif group[j - 1][:2] == 'Cd':
+                        elif grp_j[:2] == 'Cd':
                             pold = 'Cd'
                             pnew = 'CH'
+                        else:
+                            # 无匹配基团，不执行swap
+                            continue
                         
-                        swap(group[j - 1], pold, tgroup[j - 1], pnew)
-                        group[j - 1] = tgroup[j - 1]
+                        swap(group[j-1], pold, tgroup[j-1], pnew)
+                        group[j-1] = tgroup[j-1]
                         rebond(bond, group, tempkc, nring)
-                        pchem = tempkc
-                        stdchm(pchem)
+                        # 更新pchem（输入输出）
+                        pchem[0] = tempkc  # 用列表包裹pchem实现输出传递
+                        stdchm(pchem[0])
                 
-                loswitch = True
-    
-    return pchem, loswitch
+                loswitch[0] = True
 
 #=======================================================================
 #=======================================================================
@@ -274,90 +286,94 @@ def switchenol(pchem):
 # often act as a "patch" for treating enol structure. Must progressively
 # be avoid with the progressive development of gecko.
 #=======================================================================
-def alkcheck(pchem):
-    # 声明并初始化变量（保留原范围逻辑）
-    coprod = ' '
-    acom = ' '
-    # bond维度：mxnode×mxnode（左闭右闭）
+def alkcheck(pchem, coprod, acom):
+    # 初始化输出变量
+    coprod[0] = ' '  # 用列表包裹实现输出传递
+    acom[0] = ' '    # 用列表包裹实现输出传递
+    
+    if '.' in pchem[0]:
+        return
+    
+    # 初始化变量
     bond = [[0 for _ in range(mxnode)] for _ in range(mxnode)]
     dbflg = 0
     nring = 0
     group = [''] * mxnode
-    tgroup = [''] * mxnode
     pold = ''
     pnew = ''
-    tempkc = ' ' * len(pchem)
-    # rjg维度：mxring×2（左闭右闭）
-    rjg = [[0 for _ in range(2)] for _ in range(mxring)]
+    tgroup = [''] * mxnode
+    tempkc = [''] * len(pchem[0])
+    tempkc = ''.join(tempkc)  # 初始化空字符串
+    rjg = [[0 for _ in range(2)] for _ in range(mxring)]  # ring-join group pairs
     
-    if '.' in pchem:
-        return pchem, coprod, acom
-    
-    grbond(pchem, group, bond, dbflg, nring)
+    grbond(pchem[0], group, bond, dbflg, nring)
     rjgrm(nring, group, rjg)
     
-    # 循环范围：i从1到mxnode（左闭右闭）
-    for i in range(1, mxnode + 1):
-        if 'Cd' in group[i - 1]:
-            if '(OH)' in group[i - 1]:
+    # grloop循环
+    for i in range(1, mxnode + 1):  # 1-based到mxnode
+        grp_idx = i - 1  # 转换为0-based
+        if 'Cd' in group[grp_idx]:
+            if '(OH)' in group[grp_idx]:
                 pold = '(OH)'
                 pnew = 'O'
-                swap(group[i - 1], pold, tgroup[i - 1], pnew)
-                group[i - 1] = tgroup[i - 1]
+                swap(group[grp_idx], pold, tgroup[grp_idx], pnew)
+                group[grp_idx] = tgroup[grp_idx]
                 
                 pold = 'Cd'
                 pnew = 'C'
-                swap(group[i - 1], pold, tgroup[i - 1], pnew)
-                group[i - 1] = tgroup[i - 1]
+                swap(group[grp_idx], pold, tgroup[grp_idx], pnew)
+                group[grp_idx] = tgroup[grp_idx]
                 
-                # 循环范围：j从1到mxnode（左闭右闭）
-                for j in range(1, mxnode + 1):
-                    if bond[i - 1][j - 1] == 2:
-                        bond[i - 1][j - 1] = 1
-                        bond[j - 1][i - 1] = 1
+                for j in range(1, mxnode + 1):  # 1-based到mxnode
+                    if bond[i-1][j-1] == 2:  # bond是0-based
+                        bond[i-1][j-1] = 1
+                        bond[j-1][i-1] = 1
                         
-                        if group[j - 1][:4] == 'CdH2':
+                        grp_j = group[j-1]
+                        if grp_j[:4] == 'CdH2':
                             pold = 'CdH2'
                             pnew = 'CH3'
-                        elif group[j - 1][:3] == 'CdH':
+                        elif grp_j[:3] == 'CdH':
                             pold = 'CdH'
                             pnew = 'CH2'
-                        elif group[j - 1][:2] == 'Cd':
+                        elif grp_j[:2] == 'Cd':
                             pold = 'Cd'
                             pnew = 'CH'
+                        else:
+                            # 无匹配基团，不执行swap
+                            continue
                         
-                        swap(group[j - 1], pold, tgroup[j - 1], pnew)
-                        group[j - 1] = tgroup[j - 1]
+                        swap(group[j-1], pold, tgroup[j-1], pnew)
+                        group[j-1] = tgroup[j-1]
                         rebond(bond, group, tempkc, nring)
-                        pchem = tempkc
-                        stdchm(pchem)
+                        # 更新pchem（输入输出）
+                        pchem[0] = tempkc
+                        stdchm(pchem[0])
                 
-                acom = 'KETOENOL '
-                break
+                acom[0] = 'KETOENOL '
+                break  # EXIT grloop
             
-            # 注释部分保持原Fortran逻辑
-            # elif '(OOH)' in group[i - 1]:
-            #     pold = '(OOH)'
-            #     pnew = '(O.)'
-            #     swap(group[i - 1], pold, tgroup[i - 1], pnew)
-            #     group[i - 1] = tgroup[i - 1]
-            #     rebond(bond, group, tempkc, nring)
-            #     pchem = tempkc
-            #     stdchm(pchem)
-            #     coprod = 'HO'
-            #     acom = 'xxxxxxxx'
-            #     break
+            # ELSE IF (INDEX(group(i),'(OOH)')/=0) THEN
+            #     pold='(OOH)'  ;  pnew='(O.)'
+            #     CALL swap(group(i),pold,tgroup(i),pnew)
+            #     group(i)=tgroup(i)
+            #     CALL rebond(bond,group,tempkc,nring)
+            #     pchem=tempkc
+            #     CALL stdchm (pchem)
+            #     coprod='HO'
+            #     acom='xxxxxxxx'
+            #     EXIT grloop
             
-            elif '(ONO2)' in group[i - 1]:
+            elif '(ONO2)' in group[grp_idx]:
                 pold = '(ONO2)'
                 pnew = '(O.)'
-                swap(group[i - 1], pold, tgroup[i - 1], pnew)
-                group[i - 1] = tgroup[i - 1]
+                swap(group[grp_idx], pold, tgroup[grp_idx], pnew)
+                group[grp_idx] = tgroup[grp_idx]
+                
                 rebond(bond, group, tempkc, nring)
-                pchem = tempkc
-                stdchm(pchem)
-                coprod = 'NO2'
-                acom = 'KETOENENIT '
-                break
-    
-    return pchem, coprod, acom
+                pchem[0] = tempkc
+                stdchm(pchem[0])
+                
+                coprod[0] = 'NO2'
+                acom[0] = 'KETOENENIT'
+                break  # EXIT grloop
